@@ -1,0 +1,1044 @@
+#Options+FollowSymlinks
+Options -Indexes
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^(.*)$ $1.php
+
+############## AUTHENTICATION ################
+RewriteCond %{THE_REQUEST} /users/auth-register\.php[?\s] [NC]
+RewriteRule ^ signup [R=302,L,NE]
+# internal forward from pretty URL to actual one
+RewriteRule ^signup/?$ users/auth-register.php [L,NC]
+###############3333END #######################
+
+
+#################### PETY CASH ################################################
+# external redirect from actual URL to pretty one
+RewriteCond %{THE_REQUEST} /funds/pettycash/pettycash_myrequests\.php[?\s] [NC]
+RewriteRule ^ pettycash-my-requests [R=302,L,NE]
+# internal forward from pretty URL to actual one
+RewriteRule ^pettycash-my-requests/?$ funds/pettycash/pettycash_myrequests.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/pettycash_hod\.php[?\s] [NC]
+RewriteRule ^ pettycash-hod [R=302,L,NE]
+RewriteRule ^pettycash-hod/?$ funds/pettycash/pettycash_hod.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/pettycash_coo\.php[?\s] [NC]
+RewriteRule ^ pettycash-coo [R=302,L,NE]
+RewriteRule ^pettycash-coo/?$ funds/pettycash/pettycash_coo.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/fundbudgets\.php[?\s] [NC]
+RewriteRule ^ pettycash-budget [R=302,L,NE]
+RewriteRule ^pettycash-budget/?$ funds/pettycash/fundbudgets.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/pettycash_gmd\.php[?\s] [NC]
+RewriteRule ^ pettycash-gmd [R=302,L,NE]
+RewriteRule ^pettycash-gmd/?$ funds/pettycash/pettycash_gmd.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/pettycash_finance\.php[?\s] [NC]
+RewriteRule ^ pettycash-finance [R=302,L,NE]
+RewriteRule ^pettycash-finance/?$ funds/pettycash/pettycash_finance.php [L,NC]
+
+RewriteRule ^pettycash-report/?$ funds/pettycash/pettycash_report.php [L,NC]
+RewriteRule ^pettycash-report [R=302,L,NE]
+RewriteRule ^pettycash-report/?$ funds/pettycash/pettycash_report.php [L,NC]
+
+
+#API#
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_my_requests\.php[?\s] [NC]
+RewriteRule ^ api/get-my-pettycash-requests [R=302,L,NE]
+RewriteRule ^api/get-my-pettycash-requests/?$ funds/pettycash/api/read_my_requests.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_hod_requests\.php[?\s] [NC]
+RewriteRule ^ api/get-hod-pettycash-requests [R=302,L,NE]
+RewriteRule ^api/get-hod-pettycash-requests/?$ funds/pettycash/api/read_hod_requests.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_coo_requests\.php[?\s] [NC]
+RewriteRule ^ api/get-coo-pettycash-requests [R=302,L,NE]
+RewriteRule ^api/get-coo-pettycash-requests/?$ funds/pettycash/api/read_coo_requests.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_gmd_requests\.php[?\s] [NC]
+RewriteRule ^ api/get-gmd-pettycash-requests [R=302,L,NE]
+RewriteRule ^api/get-gmd-pettycash-requests/?$ funds/pettycash/api/read_gmd_requests.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_finance_requests\.php[?\s] [NC]
+RewriteRule ^ api/get-finance-pettycash-requests [R=302,L,NE]
+RewriteRule ^api/get-finance-pettycash-requests/?$ funds/pettycash/api/read_finance_requests.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_finance_account_logs\.php[?\s] [NC]
+RewriteRule ^ api/get-finance-account-logs [R=302,L,NE]
+RewriteRule ^api/get-finance-account-logs/?$ funds/pettycash/api/read_finance_account_logs.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_finance_balance\.php[?\s] [NC]
+RewriteRule ^ api/get-cashbox-balance [R=302,L,NE]
+RewriteRule ^api/get-cashbox-balance/?$ funds/pettycash/api/read_finance_balance.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_hod_spent\.php[?\s] [NC]
+RewriteRule ^ api/get-hod-budgetspent [R=302,L,NE]
+RewriteRule ^api/get-hod-budgetspent/?$ funds/pettycash/api/read_hod_spent.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-pettycash-request-([a-zA-Z0-9_-]+)$ funds/pettycash/api/read_single.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-budgetline-([a-zA-Z0-9_-]+)$ funds/pettycash/api/read_single_budget.php?id=$1
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/create\.php[?\s] [NC]
+RewriteRule ^ api/create-pettycash-request [R=302,L,NE]
+RewriteRule ^api/create-pettycash-request/?$ funds/pettycash/api/create.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/create_budget\.php[?\s] [NC]
+RewriteRule ^ api/create-pettycash-budget [R=302,L,NE]
+RewriteRule ^api/create-pettycash-budget/?$ funds/pettycash/api/create_budget.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/actions\.php[?\s] [NC]
+RewriteRule ^ api/pettycash/action [R=302,L,NE]
+RewriteRule ^api/pettycash/action/?$ funds/pettycash/api/actions.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_pettycash_report\.php[?\s] [NC]
+RewriteRule ^ api/get-pettycash-report [R=302,L,NE]
+RewriteRule ^api/get-pettycash-report/?$ funds/pettycash/api/read_pettycash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/pettycash_report_excel\.php[?\s] [NC]
+RewriteRule ^ extract-excel-pettycash-reports [R=302,L,NE]
+RewriteRule ^extract-excel-pettycash-reports/?$ funds/pettycash/api/pettycash_report_excel.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/pettycash_report_pdf\.php[?\s] [NC]
+RewriteRule ^ extract-pdf-pettycash-reports [R=302,L,NE]
+RewriteRule ^extract-pdf-pettycash-reports/?$ funds/pettycash/api/pettycash_report_pdf.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_all_budgets\.php[?\s] [NC]
+RewriteRule ^ api/get-all-budgetlines [R=302,L,NE]
+RewriteRule ^api/get-all-budgetlines/?$ funds/pettycash/api/read_all_budgets.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_fina_budgets\.php[?\s] [NC]
+RewriteRule ^ api/get-fin-budgetlines [R=302,L,NE]
+RewriteRule ^api/get-fin-budgetlines/?$ funds/pettycash/api/read_fina_budgets.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_department_budgets\.php[?\s] [NC]
+RewriteRule ^ api/get-dept-budgetlines [R=302,L,NE]
+RewriteRule ^api/get-dept-budgetlines/?$ funds/pettycash/api/read_department_budgets.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_hod_budget_request\.php[?\s] [NC]
+RewriteRule ^ api/get-my-budgetrequests [R=302,L,NE]
+RewriteRule ^api/get-my-budgetrequests/?$ funds/pettycash/api/read_hod_budget_request.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/read_dept_budget_requests\.php[?\s] [NC]
+RewriteRule ^ api/get-dept-budgetrequests [R=302,L,NE]
+RewriteRule ^api/get-dept-budgetrequests/?$ funds/pettycash/api/read_dept_budget_requests.php [L,NC]
+
+############################# END PETY CASH ###########################################################
+
+########################## PROPOSALS ##############################################################
+RewriteCond %{THE_REQUEST} /funds/proposals/api/proposal_report_pdf\.php[?\s] [NC]
+RewriteRule ^ extract-pdf-proposal-reports [R=302,L,NE]
+RewriteRule ^extract-pdf-proposal-reports/?$ funds/proposals/api/proposal_report_pdf.php [L,NC]
+# ##########################################
+RewriteCond %{THE_REQUEST} /funds/proposals/api/proposal_report_excel\.php[?\s] [NC]
+RewriteRule ^ extract-excel-proposal-reports [R=302,L,NE]
+RewriteRule ^extract-excel-proposal-reports/?$ funds/proposals/api/proposal_report_excel.php [L,NC]
+
+
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals\.php[?\s] [NC]
+RewriteRule ^ seris-proposals [R=302,L,NE]
+RewriteRule ^seris-proposals/?$ funds/proposals/proposals.php [L,NC]
+
+# read All Proposals
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals\.php[?\s] [NC]
+RewriteRule ^ api/get-all-proposals [R=302,L,NE]
+RewriteRule ^api/get-all-proposals/?$ funds/proposals/api/read_all_proposals.php [L,NC]
+
+##### CREATE PROPOSAL
+RewriteCond %{THE_REQUEST} /funds/proposals/api/create\.php[?\s] [NC]
+RewriteRule ^ api/create-proposals [R=302,L,NE]
+RewriteRule ^api/create-proposals/?$ funds/proposals/api/create.php [L,NC]
+
+
+RewriteCond %{THE_REQUEST} /funds/proposals/api/action\.php[?\s] [NC]
+RewriteRule ^ api/proposals/action [R=302,L,NE]
+RewriteRule ^api/proposals/action/?$ funds/proposals/api/action.php [L,NC]
+
+######get single propos
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-proposals-([a-zA-Z0-9_-]+)$ funds/proposals/api/read_single.php?id=$1
+
+# get comment proposal
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/read-comment-([a-zA-Z0-9_-]+)$ funds/proposals/api/read_comment.php?id=$1
+# update proposals
+RewriteCond %{THE_REQUEST} /funds/proposals/api/action\.php[?\s] [NC]
+RewriteRule ^ api/deleteProposals [R=302,L,NE]
+RewriteRule ^api/deleteProposals/?$ funds/proposals/api/action.php [L,NC]
+
+# proposals cash hod
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals_hod\.php[?\s] [NC]
+RewriteRule ^ proposal-hod [R=302,L,NE]
+RewriteRule ^proposal-hod/?$ funds/proposals/proposals_hod.php [L,NC]
+#
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals_hod\.php[?\s] [NC]
+RewriteRule ^ api/get-all-proposals-hod [R=302,L,NE]
+RewriteRule ^api/get-all-proposals-hod/?$ funds/proposals/api/read_all_proposals_hod.php [L,NC]
+#
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals_coo\.php[?\s] [NC]
+RewriteRule ^ api/get-all-proposals-coo [R=302,L,NE]
+RewriteRule ^api/get-all-proposals-coo/?$ funds/proposals/api/read_all_proposals_coo.php [L,NC]
+#
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals_gmd\.php[?\s] [NC]
+RewriteRule ^ api/get-all-proposals-gmd [R=302,L,NE]
+RewriteRule ^api/get-all-proposals-gmd/?$ funds/proposals/api/read_all_proposals_gmd.php [L,NC]
+# proposals coo
+RewriteCond %{THE_REQUEST} /funds/proposals/proposal_coo\.php[?\s] [NC]
+RewriteRule ^ proposal-coo [R=302,L,NE]
+RewriteRule ^proposal-coo?$ funds/proposals/proposal_coo.php [L,NC]
+
+# proposals gmd
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals_gmd\.php[?\s] [NC]
+RewriteRule ^ proposal-gmd [R=302,L,NE]
+RewriteRule ^proposal-gmd/?$ funds/proposals/proposals_gmd.php [L,NC]
+
+# proposals finance
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals_finance\.php[?\s] [NC]
+RewriteRule ^ proposal-finance [R=302,L,NE]
+RewriteRule ^proposal-finance/?$ funds/proposals/proposals_finance.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals_finance\.php[?\s] [NC]
+RewriteRule ^ api/get-all-proposals-finance [R=302,L,NE]
+RewriteRule ^api/get-all-proposals-finance/?$ funds/proposals/api/read_all_proposals_finance.php [L,NC]
+
+# proposals COF
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals_cof\.php[?\s] [NC]
+RewriteRule ^ proposal-cof [R=302,L,NE]
+RewriteRule ^proposal-cof/?$ funds/proposals/proposals_cof.php [L,NC]
+#
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals_cof\.php[?\s] [NC]
+RewriteRule ^ api/get-proposal-cheaf_of_finance [R=302,L,NE]
+RewriteRule ^api/get-proposal-cheaf_of_finance/?$ funds/proposals/api/read_all_proposals_cof.php [L,NC]
+#
+# proposal Country Manager
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals_country_manager\.php[?\s] [NC]
+RewriteRule ^ proposals-country-manager [R=302,L,NE]
+RewriteRule ^proposals-country-manager/?$ funds/proposals/proposals_country_manager.php [L,NC]
+# read proposal
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_all_proposals_com\.php[?\s] [NC]
+RewriteRule ^ api/get-proposal-countryManager [R=302,L,NE]
+RewriteRule ^api/get-proposal-countryManager/?$ funds/proposals/api/read_all_proposals_com.php [L,NC]
+
+#
+RewriteCond %{THE_REQUEST} /secured_api/proposal_onbehalf_report\.php[?\s] [NC]
+RewriteRule ^ api/list-proposal-report-onbehalf [R=302,L,NE]
+RewriteRule ^api/list-proposal-report-onbehalf/?$ secured_api/proposal_onbehalf_report.php [L,NC]
+# 
+RewriteCond %{THE_REQUEST} /secured_api/proposal_createdBy_list\.php[?\s] [NC]
+RewriteRule ^ api/list-proposal-report-createdBy [R=302,L,NE]
+RewriteRule ^api/list-proposal-report-createdBy/?$ secured_api/proposal_createdBy_list.php [L,NC]
+# 
+RewriteCond %{THE_REQUEST} /secured_api/proposal_subject_list\.php[?\s] [NC]
+RewriteRule ^ api/list-proposal-report-subject [R=302,L,NE]
+RewriteRule ^api/list-proposal-report-subject/?$ secured_api/proposal_subject_list.php [L,NC]
+# 
+RewriteCond %{THE_REQUEST} /secured_api/proposal_status_list\.php[?\s] [NC]
+RewriteRule ^ api/list-proposal-status [R=302,L,NE]
+RewriteRule ^api/list-proposal-status/?$ secured_api/proposal_status_list.php [L,NC]
+##### CREATE PROPOSAL ITEMS
+
+RewriteCond %{THE_REQUEST} /secured_api/proposedtby_proposal_report\.php[?\s] [NC]
+RewriteRule ^ api/list-proposal-report-proposedtby [R=302,L,NE]
+RewriteRule ^api/list-proposal-report-proposedtby/?$ secured_api/proposedtby_proposal_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/proposals/api/create_proposal_item\.php[?\s] [NC]
+RewriteRule ^ api/create-proposals-item [R=302,L,NE]
+RewriteRule ^api/create-proposals-item/?$ funds/proposals/api/create_proposal_item.php [L,NC]
+
+#######get bugdget
+RewriteCond %{THE_REQUEST} /secured_api/proposal_budget_list\.php[?\s] [NC]
+RewriteRule ^ api/list-proposal-report-budget [R=302,L,NE]
+RewriteRule ^api/list-proposal-report-budget/?$ secured_api/proposal_budget_list.php [L,NC]
+
+# proposal report
+RewriteCond %{THE_REQUEST} /funds/proposals/proposals_report\.php[?\s] [NC]
+RewriteRule ^ proposal-report [R=302,L,NE]
+RewriteRule ^proposal-report/?$ funds/proposals/proposals_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/proposals/api/read_proposal_report\.php[?\s] [NC]
+RewriteRule ^ api/get-proposal-report [R=302,L,NE]
+RewriteRule ^api/get-proposal-report/?$ funds/proposals/api/read_proposal_report.php [L,NC]
+
+################################# END OF PROPOSALS ############################################
+
+############################# ACCESSBILITY #########################################################
+RewriteCond %{THE_REQUEST} /performance/accessbility/dashboard\.php[?\s] [NC]
+RewriteRule ^ accessbility-dashboard [R=302,L,NE]
+RewriteRule ^accessbility-dashboard/?$ performance/accessbility/dashboard.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/accessbility/downtimes\.php[?\s] [NC]
+RewriteRule ^ accessbility-downtimes [R=302,L,NE]
+RewriteRule ^accessbility-downtimes/?$ performance/accessbility/downtimes.php [L,NC]
+
+#API#
+RewriteCond %{THE_REQUEST} /performance/accessbility/api/read_all_downtimes\.php[?\s] [NC]
+RewriteRule ^ api/get-all-accessbility-downtimes [R=302,L,NE]
+RewriteRule ^api/get-all-accessbility-downtimes/?$ performance/accessbility/api/read_all_downtimes.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/accessbility/api/create\.php[?\s] [NC]
+RewriteRule ^ api/create-downtime [R=302,L,NE]
+RewriteRule ^api/create-downtime/?$ performance/accessbility/api/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-downtime-([a-zA-Z0-9_-]+)$ performance/accessbility/api/read_single.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/accessbility/api/actions\.php[?\s] [NC]
+RewriteRule ^ api/accessbility/action [R=302,L,NE]
+RewriteRule ^api/accessbility/action/?$ performance/accessbility/api/actions.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/accessbility/api/charts/downtimePerCountry\.php[?\s] [NC]
+RewriteRule ^ api/accessbility/dashboard [R=302,L,NE]
+RewriteRule ^api/accessbility/dashboard/?$ performance/accessbility/api/charts/downtimePerCountry.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/accessbility/api/charts/downtimePerSystem\.php[?\s] [NC]
+RewriteRule ^ api/accessbility/dashboardsystem [R=302,L,NE]
+RewriteRule ^api/accessbility/dashboardsystem/?$ performance/accessbility/api/charts/downtimePerSystem.php [L,NC]
+
+############################# END ACCESSBILITY #####################################################
+
+############################# STRATEGY #########################################################
+RewriteCond %{THE_REQUEST} /performance/strategy/3year_strategy\.php[?\s] [NC]
+RewriteRule ^ strategy-3-year [R=302,L,NE]
+RewriteRule ^strategy-3-year/?$ performance/strategy/3year_strategy.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-strategy-3-year-([a-zA-Z0-9_-]+)$ performance/strategy/view_3year_strategy.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_all_strategies\.php[?\s] [NC]
+RewriteRule ^ api/strategy/get-all-strategies [R=302,L,NE]
+RewriteRule ^api/strategy/get-all-strategies/?$ performance/strategy/api/read_all_strategies.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/create\.php[?\s] [NC]
+RewriteRule ^ api/create-strategy [R=302,L,NE]
+RewriteRule ^api/create-strategy/?$ performance/strategy/api/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-strategy-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_single.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/actions\.php[?\s] [NC]
+RewriteRule ^ api/strategy/action [R=302,L,NE]
+RewriteRule ^api/strategy/action/?$ performance/strategy/api/actions.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_all_values\.php[?\s] [NC]
+RewriteRule ^ api/strategy/get-all-values [R=302,L,NE]
+RewriteRule ^api/strategy/get-all-values/?$ performance/strategy/api/read_all_values.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/create_value\.php[?\s] [NC]
+RewriteRule ^ api/create-strategy-value [R=302,L,NE]
+RewriteRule ^api/create-strategy-value/?$ performance/strategy/api/create_value.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-strategyvalue-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_single_value.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_all_group_pillars\.php[?\s] [NC]
+RewriteRule ^ api/strategy/get-all-group-pillars [R=302,L,NE]
+RewriteRule ^api/strategy/get-all-group-pillars/?$ performance/strategy/api/read_all_group_pillars.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_group_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/strategy/get-all-group-initiatives [R=302,L,NE]
+RewriteRule ^api/strategy/get-all-group-initiatives/?$ performance/strategy/api/read_group_initiatives.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-strategygrouppillar-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_single_group_pillar.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/create_group_pillar\.php[?\s] [NC]
+RewriteRule ^ api/create-strategy-grouppillar [R=302,L,NE]
+RewriteRule ^api/create-strategy-grouppillar/?$ performance/strategy/api/create_group_pillar.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/create_group_initiative\.php[?\s] [NC]
+RewriteRule ^ api/create-group-initiative [R=302,L,NE]
+RewriteRule ^api/create-group-initiative/?$ performance/strategy/api/create_group_initiative.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/upload_group_pillars\.php[?\s] [NC]
+RewriteRule ^ api/upload_pillars [R=302,L,NE]
+RewriteRule ^api/upload_pillars/?$ performance/strategy/api/upload_group_pillars.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/group_annual_initiatives.php\.php[?\s] [NC]
+RewriteRule ^ annual-group-strategies [R=302,L,NE]
+RewriteRule ^annual-group-strategies/?$ performance/strategy/group_annual_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/annual_business_plan.php\.php[?\s] [NC]
+RewriteRule ^ annual-business-plans [R=302,L,NE]
+RewriteRule ^annual-business-plans/?$ performance/strategy/annual_business_plan.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-strategy-group-annual-initiative-([a-zA-Z0-9_-]+)$ performance/strategy/view_group_annual_initiatives.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-business-plan-([a-zA-Z0-9_-]+)$ performance/strategy/view_business_plans.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_group_annual_strategy\.php[?\s] [NC]
+RewriteRule ^ api/get-all-group-annual-strategy [R=302,L,NE]
+RewriteRule ^api/get-all-group-annual-strategy/?$ performance/strategy/api/read_group_annual_strategy.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_main_function_strategy\.php[?\s] [NC]
+RewriteRule ^ api/get-main-function-strategy [R=302,L,NE]
+RewriteRule ^api/get-main-function-strategy/?$ performance/strategy/api/read_main_function_strategy.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_group_annual_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-all-group-annual-initiatives [R=302,L,NE]
+RewriteRule ^api/get-all-group-annual-initiatives/?$ performance/strategy/api/read_group_annual_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_main_function_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-main-function-initiatives [R=302,L,NE]
+RewriteRule ^api/get-main-function-initiatives/?$ performance/strategy/api/read_main_function_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/create_annual_business_plan\.php[?\s] [NC]
+RewriteRule ^ api/create-annual-business-plan [R=302,L,NE]
+RewriteRule ^api/create-annual-business-plan/?$ performance/strategy/api/create_annual_business_plan.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/create_business_initiative\.php[?\s] [NC]
+RewriteRule ^ api/create-initiative-country [R=302,L,NE]
+RewriteRule ^api/create-initiative-country/?$ performance/strategy/api/create_business_initiative.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/upload_department_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/upload-departmental-initiatives [R=302,L,NE]
+RewriteRule ^api/upload-departmental-initiatives/?$ performance/strategy/api/upload_department_initiatives.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-group-initiative-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_single_group_initiative.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-initiative-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_single_business_initiative.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-division-strategy-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_single_country_strategy.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-departmental-strategy-comments-([a-zA-Z0-9_-]+)$ performance/strategy/api/read_dep_initiative_comment.php?id=$1
+
+RewriteRule ^strategy-dashboard/?$ performance/strategy/dashboard.php [L,NC]
+RewriteRule ^strategy-dashboard [R=302,L,NE]
+RewriteRule ^strategy-dashboard/?$ performance/strategy/dashboard.php [L,NC]
+
+RewriteRule ^strategy-report/?$ performance/strategy/strategy_report.php [L,NC]
+RewriteRule ^strategy-report [R=302,L,NE]
+RewriteRule ^strategy-report/?$ performance/strategy/strategy_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/read_strategy_initiatives_report\.php[?\s] [NC]
+RewriteRule ^ api/get-strategy_initiatives-report [R=302,L,NE]
+RewriteRule ^api/get-strategy_initiatives-report/?$ performance/strategy/api/read_strategy_initiatives_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/strategy_initiatives_report_excel\.php[?\s] [NC]
+RewriteRule ^ extract-excel-strategy-initiatives-reports [R=302,L,NE]
+RewriteRule ^extract-excel-strategy-initiatives-reports/?$ performance/strategy/api/strategy_initiatives_report_excel.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/strategy/api/strategy_initiatives_report_pdf\.php[?\s] [NC]
+RewriteRule ^ extract-pdf-strategy-initiatives-reports [R=302,L,NE]
+RewriteRule ^extract-pdf-strategy-initiatives-reports/?$ performance/strategy/api/strategy_initiatives_report_pdf.php [L,NC]
+
+
+# Charts
+
+############################# END STRATEGY #####################################################
+
+############################# BSC #########################################################
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/actions\.php[?\s] [NC]
+RewriteRule ^ api/bsc/action [R=302,L,NE]
+RewriteRule ^api/bsc/action/?$ performance/bsc/api/actions.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/create_indiv_bsc\.php[?\s] [NC]
+RewriteRule ^ api/create-ind-bsc [R=302,L,NE]
+RewriteRule ^api/create-ind-bsc/?$ performance/bsc/api/create_indiv_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/section_bsc.php\.php[?\s] [NC]
+RewriteRule ^ annual-section-bsc [R=302,L,NE]
+RewriteRule ^annual-section-bsc/?$ performance/bsc/section_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/unit_bsc.php\.php[?\s] [NC]
+RewriteRule ^ annual-unit-bsc [R=302,L,NE]
+RewriteRule ^annual-unit-bsc/?$ performance/bsc/unit_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/division_bsc.php\.php[?\s] [NC]
+RewriteRule ^ annual-function-bsc [R=302,L,NE]
+RewriteRule ^annual-function-bsc/?$ performance/bsc/division_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/gmd_bsc.php\.php[?\s] [NC]
+RewriteRule ^ annual-gmd-bsc [R=302,L,NE]
+RewriteRule ^annual-gmd-bsc/?$ performance/bsc/gmd_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/department_bsc.php\.php[?\s] [NC]
+RewriteRule ^ annual-departmental-bsc [R=302,L,NE]
+RewriteRule ^annual-departmental-bsc/?$ performance/bsc/department_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/individual_bsc.php\.php[?\s] [NC]
+RewriteRule ^ annual-individual-bsc [R=302,L,NE]
+RewriteRule ^annual-individual-bsc/?$ performance/bsc/individual_bsc.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-bsc-unit-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/view_unit_initiatives.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-bsc-section-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/view_section_initiatives.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-bsc-function-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/view_division_initiative.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-bsc-gmd-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/view_gmd_initiatives.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-bsc-department-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/view_department_initiatives.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^view-bsc-individual-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/view_individual_initiatives.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_unitl_bsc\.php[?\s] [NC]
+RewriteRule ^ api/get-all-unit-bsc [R=302,L,NE]
+RewriteRule ^api/get-all-unit-bsc/?$ performance/bsc/api/read_unit_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_section_bsc\.php[?\s] [NC]
+RewriteRule ^ api/get-all-section-bsc [R=302,L,NE]
+RewriteRule ^api/get-all-section-bsc/?$ performance/bsc/api/read_section_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_division_bsc\.php[?\s] [NC]
+RewriteRule ^ api/get-all-function-bsc [R=302,L,NE]
+RewriteRule ^api/get-all-function-bsc/?$ performance/bsc/api/read_division_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_gmd_bsc\.php[?\s] [NC]
+RewriteRule ^ api/get-all-gmd-bsc [R=302,L,NE]
+RewriteRule ^api/get-all-gmd-bsc/?$ performance/bsc/api/read_gmd_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_individual_bsc_parameters\.php[?\s] [NC]
+RewriteRule ^ api/get-individual-bsc-parameters [R=302,L,NE]
+RewriteRule ^api/get-individual-bsc-parameters/?$ performance/bsc/api/read_individual_bsc_parameters.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/create_individual_parameter\.php[?\s] [NC]
+RewriteRule ^ api/create-individual-bsc-parameter [R=302,L,NE]
+RewriteRule ^api/create-individual-bsc-parameter/?$ performance/bsc/api/create_individual_parameter.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-individual-bsc-parameter-([a-zA-Z0-9_-]+)$ performance/bsc/api/read_single_bsc_parameter.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_individual_bsc\.php[?\s] [NC]
+RewriteRule ^ api/get-all-individual-bsc [R=302,L,NE]
+RewriteRule ^api/get-all-individual-bsc/?$ performance/bsc/api/read_individual_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_bsc_approval_logs\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-approval-logs [R=302,L,NE]
+RewriteRule ^api/get-bsc-approval-logs/?$ performance/bsc/api/read_bsc_approval_logs.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_department_bsc\.php[?\s] [NC]
+RewriteRule ^ api/get-all-department-bsc [R=302,L,NE]
+RewriteRule ^api/get-all-department-bsc/?$ performance/bsc/api/read_department_bsc.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_all_unit_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-unit-initiatives [R=302,L,NE]
+RewriteRule ^api/get-bsc-unit-initiatives/?$ performance/bsc/api/read_all_unit_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_all_section_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-section-initiatives [R=302,L,NE]
+RewriteRule ^api/get-bsc-section-initiatives/?$ performance/bsc/api/read_all_section_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_all_division_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-function-initiatives [R=302,L,NE]
+RewriteRule ^api/get-bsc-function-initiatives/?$ performance/bsc/api/read_all_division_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_all_department_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-department-initiatives [R=302,L,NE]
+RewriteRule ^api/get-bsc-department-initiatives/?$ performance/bsc/api/read_all_department_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_all_individual_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-individual-initiatives [R=302,L,NE]
+RewriteRule ^api/get-bsc-individual-initiatives/?$ performance/bsc/api/read_all_individual_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_all_gmd_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/get-bsc-gmd-initiatives [R=302,L,NE]
+RewriteRule ^api/get-bsc-gmd-initiatives/?$ performance/bsc/api/read_all_gmd_initiatives.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/create_initiative\.php[?\s] [NC]
+RewriteRule ^ api/create-bsc-initiative [R=302,L,NE]
+RewriteRule ^api/create-bsc-initiative/?$ performance/bsc/api/create_initiative.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/upload_bsc_initiatives\.php[?\s] [NC]
+RewriteRule ^ api/upload-bsc-initiatives [R=302,L,NE]
+RewriteRule ^api/upload-bsc-initiatives/?$ performance/bsc/api/upload_bsc_initiatives.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-bsc-initiative-([a-zA-Z0-9_-]+)$ performance/bsc/api/read_single_initiative.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-bsc-([a-zA-Z0-9_-]+)$ performance/bsc/api/read_single_bsc.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-init-bsc-comments-([a-zA-Z0-9_-]+)$ performance/bsc/api/read_bsc_initiative_comment.php?id=$1
+
+RewriteCond %{THE_REQUEST} /performance/bsc/dashboard\.php[?\s] [NC]
+RewriteRule ^ bsc-dashboard [R=302,L,NE]
+RewriteRule ^bsc-dashboard/?$ performance/bsc/dashboard.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/bsc_report\.php[?\s] [NC]
+RewriteRule ^ bsc-report [R=302,L,NE]
+RewriteRule ^bsc-report/?$ performance/bsc/bsc_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/read_strategy_initiatives_report\.php[?\s] [NC]
+RewriteRule ^ api/get-strategy_initiatives-report [R=302,L,NE]
+RewriteRule ^api/get-strategy_initiatives-report/?$ performance/bsc/api/read_strategy_initiatives_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/strategy_initiatives_report_excel\.php[?\s] [NC]
+RewriteRule ^ extract-excel-strategy-initiatives-reports [R=302,L,NE]
+RewriteRule ^extract-excel-strategy-initiatives-reports/?$ performance/bsc/api/strategy_initiatives_report_excel.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /performance/bsc/api/strategy_initiatives_report_pdf\.php[?\s] [NC]
+RewriteRule ^ extract-pdf-strategy-initiatives-reports [R=302,L,NE]
+RewriteRule ^extract-pdf-strategy-initiatives-reports/?$ performance/bsc/api/strategy_initiatives_report_pdf.php [L,NC]
+
+
+# Charts
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-individual-bsc-scores-([a-zA-Z0-9_-]+)$ performance/bsc/api/charts/individual_bsc_scores_count.php?id=$1
+
+
+############################# END BSC #####################################################
+
+
+
+################################ ADMINISTRATION #########################################
+
+################################ USERS #########################################
+# external redirect from actual URL to pretty one
+RewriteCond %{THE_REQUEST} /administration/users/users\.php[?\s] [NC]
+RewriteRule ^ users-list [R=302,L,NE]
+# internal forward from pretty URL to actual one
+RewriteRule ^users-list/?$ administration/users/users.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/read_all_users\.php[?\s] [NC]
+RewriteRule ^ api/get-users [R=302,L,NE]
+RewriteRule ^api/get-users/?$ administration/users/api/user/read_all_users.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/create\.php[?\s] [NC]
+RewriteRule ^ api/create-user [R=302,L,NE]
+RewriteRule ^api/create-user/?$ administration/users/api/user/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-user-([a-zA-Z0-9_-]+)$ administration/users/api/user/read_single.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-privileges-([a-zA-Z0-9_-]+)$ administration/users/api/user/read_privileges.php?id=$1
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/actions\.php[?\s] [NC]
+RewriteRule ^ api/action [R=302,L,NE]
+RewriteRule ^api/action/?$ administration/users/api/user/actions.php [L,NC]
+
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/login\.php[?\s] [NC]
+RewriteRule ^ api/login [R=302,L,NE]
+RewriteRule ^api/login/?$ administration/users/api/user/login.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/confirm_login\.php[?\s] [NC]
+RewriteRule ^ api/login-confirm [R=302,L,NE]
+RewriteRule ^api/login-confirm/?$ administration/users/api/user/confirm_login.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/decline_login\.php[?\s] [NC]
+RewriteRule ^ api/login-decline [R=302,L,NE]
+RewriteRule ^api/login-decline/?$ administration/users/api/user/decline_login.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/logout\.php[?\s] [NC]
+RewriteRule ^ api/logout [R=302,L,NE]
+RewriteRule ^api/logout/?$ administration/users/api/user/logout.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/auth-login\.php[?\s] [NC]
+RewriteRule ^ login [R=302,L,NE]
+RewriteRule ^login/?$ administration/users/auth-login.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/disclaimer\.php[?\s] [NC]
+RewriteRule ^ login-confirmation [R=302,L,NE]
+RewriteRule ^login-confirmation/?$ administration/users/disclaimer.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/auth-recoverpw\.php[?\s] [NC]
+RewriteRule ^ forgot-password [R=302,L,NE]
+RewriteRule ^forgot-password/?$ administration/users/auth-recoverpw.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/recover_forgotten_password\.php[?\s] [NC]
+RewriteRule ^ api/recover-password [R=302,L,NE]
+RewriteRule ^api/recover-password/?$ administration/users/api/user/recover_forgotten_password.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /index\.php[?\s] [NC]
+RewriteRule ^ welcome [R=302,L,NE]
+RewriteRule ^welcome/?$ index.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/check_expiration\.php[?\s] [NC]
+RewriteRule ^ api/about-expiration [R=302,L,NE]
+RewriteRule ^api/about-expiration/?$ administration/users/api/user/check_expiration.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/token_refresh\.php[?\s] [NC]
+RewriteRule ^ api/refresh-token [R=302,L,NE]
+RewriteRule ^api/refresh-token/?$ administration/users/api/user/token_refresh.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/profile\.php[?\s] [NC]
+RewriteRule ^ profile-settings [R=302,L,NE]
+RewriteRule ^profile-settings/?$ administration/users/profile.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/change_my_password\.php[?\s] [NC]
+RewriteRule ^ api/change-password [R=302,L,NE]
+RewriteRule ^api/change-password/?$ administration/users/api/user/change_my_password.php [L,NC]
+
+######################################### ROLES ##########################################
+RewriteCond %{THE_REQUEST} /administration/users/api/roles/read_all_roles\.php[?\s] [NC]
+RewriteRule ^ api/get-roles [R=302,L,NE]
+RewriteRule ^api/get-roles/?$ administration/users/api/roles/read_all_roles.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/roles/create\.php[?\s] [NC]
+RewriteRule ^ api/create-role [R=302,L,NE]
+RewriteRule ^api/create-role/?$ administration/users/api/roles/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-role-([a-zA-Z0-9_-]+)$ administration/users/api/roles/read_single.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-role-permissions-([a-zA-Z0-9_-]+)$ administration/users/api/roles/read_role_permissions.php?id=$1
+
+RewriteCond %{THE_REQUEST} /administration/users/api/roles/actions\.php[?\s] [NC]
+RewriteRule ^ api/roles/action [R=302,L,NE]
+RewriteRule ^api/roles/action/?$ administration/users/api/roles/actions.php [L,NC]
+
+######################################### PERMISSIONS ##########################################
+RewriteCond %{THE_REQUEST} /administration/users/api/permissions/read_all_permissions\.php[?\s] [NC]
+RewriteRule ^ api/get-permissions [R=302,L,NE]
+RewriteRule ^api/get-permissions/?$ administration/users/api/permissions/read_all_permissions.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/permissions/create\.php[?\s] [NC]
+RewriteRule ^ api/create-permission [R=302,L,NE]
+RewriteRule ^api/create-permission/?$ administration/users/api/permissions/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-permission-([a-zA-Z0-9_-]+)$ administration/users/api/permissions/read_single.php?id=$1
+
+RewriteCond %{THE_REQUEST} /administration/users/api/permissions/actions\.php[?\s] [NC]
+RewriteRule ^ api/permissions/action [R=302,L,NE]
+RewriteRule ^api/permissions/action/?$ administration/users/api/permissions/actions.php [L,NC]
+
+######################################### MODULES ##########################################
+RewriteCond %{THE_REQUEST} /administration/users/api/modules/read_all_modules\.php[?\s] [NC]
+RewriteRule ^ api/get-modules [R=302,L,NE]
+RewriteRule ^api/get-modules/?$ administration/users/api/modules/read_all_modules.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/modules/create\.php[?\s] [NC]
+RewriteRule ^ api/create-module [R=302,L,NE]
+RewriteRule ^api/create-module/?$ administration/users/api/modules/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-module-([a-zA-Z0-9_-]+)$ administration/users/api/modules/read_single.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-module-permissions-([a-zA-Z0-9_-]+)$ administration/users/api/modules/read_module_permissions.php?id=$1
+
+RewriteCond %{THE_REQUEST} /administration/users/api/modules/actions\.php[?\s] [NC]
+RewriteRule ^ api/modules/action [R=302,L,NE]
+RewriteRule ^api/modules/action/?$ administration/users/api/modules/actions.php [L,NC]
+
+######################################### APPROVALS ##########################################
+RewriteCond %{THE_REQUEST} /administration/users/api/approvals/read_all_approvals\.php[?\s] [NC]
+RewriteRule ^ api/get-approvals [R=302,L,NE]
+RewriteRule ^api/get-approvals/?$ administration/users/api/approvals/read_all_approvals.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/approvals/create\.php[?\s] [NC]
+RewriteRule ^ api/create-approval [R=302,L,NE]
+RewriteRule ^api/create-approval/?$ administration/users/api/approvals/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-approval-([a-zA-Z0-9_-]+)$ administration/users/api/approvals/read_single.php?id=$1
+
+RewriteCond %{THE_REQUEST} /administration/users/api/approvals/actions\.php[?\s] [NC]
+RewriteRule ^ api/approvals/action [R=302,L,NE]
+RewriteRule ^api/approvals/action/?$ administration/users/api/approvals/actions.php [L,NC]
+
+######################################### APPROVAL HIERARCHY ##########################################
+RewriteCond %{THE_REQUEST} /administration/users/api/approval_hierarchy/read_all_approval_hierarchy\.php[?\s] [NC]
+RewriteRule ^ api/get-approval-hierarchy [R=302,L,NE]
+RewriteRule ^api/get-approval-hierarchy/?$ administration/users/api/approval_hierarchy/read_all_approval_hierarchy.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/approval_hierarchy/create\.php[?\s] [NC]
+RewriteRule ^ api/create-approval-hierarchy [R=302,L,NE]
+RewriteRule ^api/create-approval-hierarchy/?$ administration/users/api/approval_hierarchy/create.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/get-single-hierarchy-([a-zA-Z0-9_-]+)$ administration/users/api/approval_hierarchy/read_single.php?id=$1
+
+RewriteCond %{THE_REQUEST} /administration/users/api/approval_hierarchy/actions\.php[?\s] [NC]
+RewriteRule ^ api/approval_hierarchy/action [R=302,L,NE]
+RewriteRule ^api/approval_hierarchy/action/?$ administration/users/api/approval_hierarchy/actions.php [L,NC]
+
+
+######################################### END OF ADMINISTRATION #################################
+
+
+
+################### DROPDOWN LISTS ##############################
+
+RewriteCond %{THE_REQUEST} /unsecured_api/countries_list\.php[?\s] [NC]
+RewriteRule ^ api/list-countries [R=302,L,NE]
+RewriteRule ^api/list-countries/?$ unsecured_api/countries_list.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-divisions-([a-zA-Z0-9_-]+)$ secured_api/divisions_per_country_list.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-departments-([a-zA-Z0-9_-]+)$ secured_api/departments_per_division_list.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-units-([a-zA-Z0-9_-]+)$ secured_api/units_per_department_list.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-sections-([a-zA-Z0-9_-]+)$ secured_api/sections_per_unit_list.php?id=$1
+
+RewriteCond %{THE_REQUEST} /secured_api/departments_list_per_country\.php[?\s] [NC]
+RewriteRule ^ api/list-country-departments [R=302,L,NE]
+RewriteRule ^api/list-country-departments/?$ secured_api/departments_list_per_country.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/departments_list_per_division\.php[?\s] [NC]
+RewriteRule ^ api/list-division-departments [R=302,L,NE]
+RewriteRule ^api/list-division-departments/?$ secured_api/departments_list_per_division.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /funds/pettycash/api/cash_categories_list\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-categories [R=302,L,NE]
+RewriteRule ^api/list-cash-categories/?$ funds/pettycash/api/cash_categories_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/providers_list\.php[?\s] [NC]
+RewriteRule ^ api/list-providers [R=302,L,NE]
+RewriteRule ^api/list-providers/?$ secured_api/providers_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/customers_list\.php[?\s] [NC]
+RewriteRule ^ api/list-customers [R=302,L,NE]
+RewriteRule ^api/list-customers/?$ secured_api/customers_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/countries_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-country [R=302,L,NE]
+RewriteRule ^api/list-cash-report-country/?$ secured_api/countries_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/departments_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-department [R=302,L,NE]
+RewriteRule ^api/list-cash-report-department/?$ secured_api/departments_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/budgetline_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-budget [R=302,L,NE]
+RewriteRule ^api/list-cash-report-budget/?$ secured_api/budgetline_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/budget_category_list\.php[?\s] [NC]
+RewriteRule ^ api/list-budget-category [R=302,L,NE]
+RewriteRule ^api/list-budget-category/?$ secured_api/budget_category_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/department_budget_list\.php[?\s] [NC]
+RewriteRule ^ api/list-department-budget [R=302,L,NE]
+RewriteRule ^api/list-department-budget/?$ secured_api/department_budget_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/category_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-category [R=302,L,NE]
+RewriteRule ^api/list-cash-report-category/?$ secured_api/category_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/status_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-status [R=302,L,NE]
+RewriteRule ^api/list-cash-report-status/?$ secured_api/status_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/disbused_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-disbused [R=302,L,NE]
+RewriteRule ^api/list-cash-report-disbused/?$ secured_api/disbused_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/requestby_cash_report\.php[?\s] [NC]
+RewriteRule ^ api/list-cash-report-requestby [R=302,L,NE]
+RewriteRule ^api/list-cash-report-requestby/?$ secured_api/requestby_cash_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/systems_list\.php[?\s] [NC]
+RewriteRule ^ api/list-systems [R=302,L,NE]
+RewriteRule ^api/list-systems/?$ secured_api/systems_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /administration/users/api/user/list_all_users\.php[?\s] [NC]
+RewriteRule ^ api/list-all-users [R=302,L,NE]
+RewriteRule ^api/list-all-users/?$ administration/users/api/user/list_all_users.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-strategy-pillars-([a-zA-Z0-9_-]+)$ secured_api/pillars_per_strategy.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-pillars-per-parameter-([a-zA-Z0-9_-]+)$ secured_api/pillars_per_parameter.php?id=$1
+
+RewriteCond %{THE_REQUEST} /secured_api/pillars_list\.php[?\s] [NC]
+RewriteRule ^ api/list-pillars [R=302,L,NE]
+RewriteRule ^api/list-pillars/?$ secured_api/pillars_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/bsc_parameters_list\.php[?\s] [NC]
+RewriteRule ^ api/list-bsc-parameters [R=302,L,NE]
+RewriteRule ^api/list-bsc-parameters/?$ secured_api/bsc_parameters_list.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-parameters-per-bsc-([a-zA-Z0-9_-]+)$ secured_api/bsc_parameters_per_bsc.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-pillar-initiatives-([a-zA-Z0-9_-]+)$ secured_api/strategy_group_pillar_initiatives.php?id=$1
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-by-level-threeyear-initiatives-([a-zA-Z0-9_-]+)$ secured_api/strategy_group_initiative_by_role.php?id=$1
+
+RewriteCond %{THE_REQUEST} /secured_api/strategy_list_group_active\.php[?\s] [NC]
+RewriteRule ^ api/list-current-group-strategy [R=302,L,NE]
+RewriteRule ^api/list-current-group-strategy?$ secured_api/strategy_list_group_active.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/permissions_list\.php[?\s] [NC]
+RewriteRule ^ api/list-permissions [R=302,L,NE]
+RewriteRule ^api/list-permissions/?$ secured_api/permissions_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/permissions_per_module_list\.php[?\s] [NC]
+RewriteRule ^ api/list-permissions-per-module [R=302,L,NE]
+RewriteRule ^api/list-permissions-per-module/?$ secured_api/permissions_per_module_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/users_active_list\.php[?\s] [NC]
+RewriteRule ^ api/list-active-users [R=302,L,NE]
+RewriteRule ^api/list-active-users/?$ secured_api/users_active_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/approvals_list\.php[?\s] [NC]
+RewriteRule ^ api/list-approvals [R=302,L,NE]
+RewriteRule ^api/list-approvals/?$ secured_api/approvals_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/roles_list\.php[?\s] [NC]
+RewriteRule ^ api/list-roles [R=302,L,NE]
+RewriteRule ^api/list-roles/?$ secured_api/roles_list.php [L,NC]
+
+
+
+RewriteCond %{THE_REQUEST} /secured_api/3year_strategy_list_report\.php[?\s] [NC]
+RewriteRule ^ api/list-3yearstrategy-report [R=302,L,NE]
+RewriteRule ^api/list-3yearstrategy-report/?$ secured_api/3year_strategy_list_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/annual_stretegy_years_list_report\.php[?\s] [NC]
+RewriteRule ^ api/list-annualyearstrategy-report [R=302,L,NE]
+RewriteRule ^api/list-annualyearstrategy-report/?$ secured_api/annual_stretegy_years_list_report.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/countries_strategy_report_list\.php[?\s] [NC]
+RewriteRule ^ api/list-countriesstrategy-report [R=302,L,NE]
+RewriteRule ^api/list-countriesstrategy-report/?$ secured_api/countries_strategy_report_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/business_category_list\.php[?\s] [NC]
+RewriteRule ^ api/list-business-categories [R=302,L,NE]
+RewriteRule ^api/list-business-categories/?$ secured_api/business_category_list.php [L,NC]
+
+RewriteCond %{THE_REQUEST} /secured_api/departments_strategy_report\.php[?\s] [NC]
+RewriteRule ^ api/list-departmentstrategy-report [R=302,L,NE]
+RewriteRule ^api/list-departmentstrategy-report/?$ secured_api/departments_strategy_report.php [L,NC]
+
+
+RewriteCond %{THE_REQUEST} /secured_api/users_by_my_department\.php[?\s] [NC]
+RewriteRule ^ api/list-my-department-users [R=302,L,NE]
+RewriteRule ^api/list-my-department-users/?$ secured_api/users_by_my_department.php [L,NC]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^api/list-department-initiatives-([a-zA-Z0-9_-]+)\-([a-zA-Z0-9_-]+)\-([a-zA-Z0-9_-]+)$ secured_api/depart_strategy_initiatives.php?country=$1&department=$2&year=$3 [NC]
+
+############################AVOID BROWSE FILES########################
+
+#RewriteCond %{HTTP_REFERER} !^http://localhost/valuation/properties/uploads [NC]
+#RewriteRule \.(jpg|jpeg|png|gif)$ - [F,L]
+
+#RewriteRule ^properties/uploads/(.*) property/img/$1 [L]
+
+############ ERROR HUNDLING ##############################
+
+ErrorDocument 400 http://www.smartapplicationsgroup.com/kenya/error-400
+ErrorDocument 401 http://www.smartapplicationsgroup.com/kenya/error-401
+ErrorDocument 403 http://www.smartapplicationsgroup.com/kenya/error-403
+ErrorDocument 404 http://www.smartapplicationsgroup.com/kenya/error-404
+ErrorDocument 500 http://www.smartapplicationsgroup.com/kenya/error-500
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^error-([a-zA-Z0-9_-]+)$ error.php?id=$1 [NC]
